@@ -1,6 +1,6 @@
 # Ejercicio 1. Demostracion de ejecucion
 
-import psutil
+import psutil 
 
 # i.
 

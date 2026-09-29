@@ -1,6 +1,7 @@
 # Ejercicio 1. Demostracion de ejecucion
 
-import datetime
+#import datetime
+from datetime import datetime
 import json
 import sys
 import psutil 
@@ -80,3 +81,21 @@ def mostrar_filtrados():
     if not palabras or len(palabras) > 2:
         print("Filtro no válido. Debe introducir una o dos palabras (ej: 'iniciado manual').")
         return
+    
+    map_estado = {"iniciado": "running", "parado": "stopped"}
+    map_inicio = {"manual": "manual", "automático": "automatic", "automatico": "automatic"}
+
+    estado_buscado = None
+    inicio_buscado = None
+
+
+    if len(palabras) == 1:
+        if palabras[0] in map_estado:
+            estado_buscado = map_estado[palabras[0]]
+        elif palabras[0] in map_inicio:
+            inicio_buscado = map_inicio[palabras[0]]
+        else:
+            print(f"Palabra desconocida '{palabras[0]}'. Use: iniciado, parado, manual o automático.")
+            return
+
+

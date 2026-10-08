@@ -1,61 +1,10 @@
-# Ejercicio 1. Demostracion de ejecucion
-
-#import datetime
-from datetime import datetime
-import json
-import sys
-import psutil 
-
-# i. PLATAFORMA
-print(f"Estamos usando Windows. {psutil.WINDOWS}")
-print(f"Estamos usando Linux. {psutil.WINDOWS}")
-
-# ii. CPUs
-print(f"Número de CPUs: {psutil.cpu_count()}")
-freqs = [f.max for f in psutil.cpu_freq(percpu=True)]
-print(f"Frecuencia de cada CPU: {[f.max for f in psutil.cpu_freq(percpu=True)]}")
-cpu_times = psutil.cpu_times_percent(interval=1)
-print(f"Uso de CPU por CPUs: {psutil.cpu_times_percent(interval=1)}")
-
-# iii. MEMORIA RAM
-memoria = psutil.virtual_memory()
-print(f"Memoria total: {memoria.total} bytes")
-print(f"Memoria disponible: {memoria.available} bytes")
-print(f"Porcentaje de memoria usada: {memoria.percent}%")
-
-# iv. DISCOS
-print(f"Listado de particiones: {psutil.disk_partitions(all=True)}")
-disk_io = psutil.disk_io_counters()
-# print(f"Uso de disco para la ruta: {psutil.disk_usage('/home/vagrant/scripts')}")
-print(f"Número de operaciones de lectura: {psutil.disk_io_counters().read_count}")
-print(f"Número de operaciones de escritura: {psutil.disk_io_counters().write_count}")
-print(f"Número de bytes leídos: {psutil.disk_io_counters().read_bytes}")
-print(f"Número de bytes escritos: {psutil.disk_io_counters().write_bytes}")
-
-# v. RED
-net_io = psutil.net_io_counters()
-print(f"Bytes enviados: {psutil.net_io_counters().bytes_sent}")
-print(f"Bytes recibidos: {psutil.net_io_counters().bytes_recv}")
-print(f"Paquetes enviados: {psutil.net_io_counters().packets_sent}")
-print(f"Paquetes recibidos: {psutil.net_io_counters().packets_recv}")
-
-# b. Guardar información del sistema en JSON
-ruta_destino = "./" 
-nombre_fichero = f"{datetime.now().strftime('%Y%m%D%H%M%S')}-system-info.json"
-
-with open(f"{ruta_destino}{nombre_fichero}", "w") as f:
-    json.dump({
-        "cpus": {"count": psutil.cpu_count(), "freq": freqs},
-        "memoria": {"total": memoria.total, "available": memoria.available, "percent": memoria.percent},
-        "discos": {"read_bytes": disk_io.read_bytes, "write_bytes": disk_io.write_bytes},
-        "red": {"bytes_sent": net_io.bytes_sent, "bytes_recv": net_io.bytes_recv}
-    }, f, indent=4)
-
 # 2.
 
 # a.
+import psutil
+
+
 def mostrar_todos():
-    """Muestra todos los servicios de Windows con su nombre, PID, estado y tipo de inicio."""
     print(f"\n{'NOMBRE':<35} | {'PID':<8} | {'ESTADO':<12} | {'TIPO INICIO':<12}")
     print("-" * 70)
     try:
@@ -103,8 +52,8 @@ def mostrar_filtrados():
             estado_buscado = map_estado[palabras[0]]
             inicio_buscado = map_inicio[palabras[1]]
         else:
-            print("El formato debe ser '<estado> <inicio>'. Ejemplo: 'iniciado manual'.")
-            print("Estados válidos: iniciado, parado. Inicios válidos: manual, automático.")
+            print("El formato debe ser por ejemplo: 'iniciado manual'.")
+            print("Estados: iniciado, parado. Inicios: manual, automático.")
             return
 
     print(f"\n{'NOMBRE':<35} | {'PID':<8} | {'ESTADO':<12} | {'TIPO INICIO':<12}")
@@ -117,7 +66,6 @@ def mostrar_filtrados():
                 status = d.get('status', '')
                 start_type = d.get('start_type', '')
                 
-                # Comprobar si el servicio cumple con las condiciones establecidas
                 cumple_estado = (estado_buscado is None) or (status == estado_buscado)
                 cumple_inicio = (inicio_buscado is None) or (start_type == inicio_buscado)
                 
@@ -156,4 +104,3 @@ def mostrar_descripcion():
         print(f"Error: Acceso denegado. Es posible que necesites ejecutar el script como Administrador.")
     except Exception as e:
         print(f"Ocurrió un error inesperado al buscar el servicio: {e}")
-

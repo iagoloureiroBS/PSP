@@ -23,3 +23,21 @@ Elabora un programa en Python que permita consultar la información del sistema.
     - Paquetes recibidos
  Guardar información del sistema:
 Realizará un volcado de la información del sistema que se muestra por pantalla a un fichero JSON en la ruta que se proporcione, siendo el nombre del fichero el siguiente: yyyyMMddhhmmss-system-info.json
+
+
+p = get(pid)
+-> hijos[]
+
+imprimir(p)
+print(f"{p} {decoracion} {p.nombre}")
+for phijo in hijos i
+imprimir(phijo, decoracion = decoracion + " ")
+
+
+
+def imprimir(p, decoracion = "") 
+firefox.exe 1157
+    -firefox2.exe
+        -firefox3.exe 
+
+u\ 

@@ -12,3 +12,6 @@ procesos = [p for p in psutil.process_iter(attrs=['pid', 'name', 'username']) if
 print(f"Procesos filtrados por uso de memoria: {procesos.sort(key=lambda p: p.memory_percent(), reverse=True)}")
 
 #c.
+procesos = [p for p in psutil.process_iter(attrs=['pid', 'name', 'username','memory_info']) if p.cpu_percent(interval=0.1)>0.001]
+
+procesos.sort(key=lambda p: p.cpu_percent(interval=0.1))
